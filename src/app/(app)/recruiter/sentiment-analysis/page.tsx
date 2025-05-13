@@ -1,3 +1,5 @@
+"use client";
+export const dynamic = "force-dynamic";
 import { PageHeader } from '@/components/shared/page-header';
 import { SentimentAnalysisTool } from '@/components/dashboard/sentiment-analysis-tool';
 import { ShieldCheck } from 'lucide-react';
