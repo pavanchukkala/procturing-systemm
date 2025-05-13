@@ -1,6 +1,5 @@
 // src/app/(app)/layout.tsx
 "use client";
-
 export const dynamic = "force-dynamic";
 
 import { useEffect } from "react";
