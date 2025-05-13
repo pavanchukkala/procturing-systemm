@@ -1,4 +1,5 @@
 "use client";
+export const dynamic = "force-dynamic";
 
 import { AuthPanel } from '@/components/auth/auth-panel';
 import { AppLogo } from '@/components/shared/app-logo';
