@@ -1,20 +1,26 @@
 // src/app/layout.tsx
+"use client";
 
-import "./globals.css";
-import { ReactNode } from "react";
-import { AuthProvider } from "@/contexts/auth-context";  // path to your context
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import { ReactNode, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/auth-context";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <AuthProvider>       {/* ← wrap everything here */}
-          {children}
-        </AuthProvider>
-      </body>
-    </html>
-  );
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading) {
+      // If not authenticated, always send to /auth
+      if (!user && router.pathname !== "/auth") {
+        router.replace("/auth");
+      }
+      // If authenticated, landing at "/" send to dashboard
+      if (user && router.pathname === "/") {
+        router.replace(`/${user.role}/dashboard`);
+      }
+    }
+  }, [user, loading, router]);
+
+  return <>{children}</>;
 }
