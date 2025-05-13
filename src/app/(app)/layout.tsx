@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react';
 import { AppLogo } from '@/components/shared/app-logo';
 import { ShieldCheck } from 'lucide-react';
-import { AuthProvider } from '@/context/auth-provider'; // <-- import your AuthProvider
+import { AuthProvider } from '@/contexts/auth-provider'; // <-- import your AuthProvider
 
 export default function ExamLayout({
   children,
