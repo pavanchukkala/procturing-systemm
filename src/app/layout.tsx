@@ -1,15 +1,20 @@
 // src/app/layout.tsx
-import "@/styles/globals.css";
+import "./globals.css";
 import { ReactNode } from "react";
 import { AuthProvider } from "@/contexts/auth-context";
 
-export const metadata = { title: "Proctoring System" };
+export const metadata = {
+  title: "Proctoring System",
+  description: "Secure exam & recruitment platform",
+};
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
