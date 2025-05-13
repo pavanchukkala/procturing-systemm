@@ -1,4 +1,7 @@
+// src/app/(app)/layout.tsx
 "use client";
+
+export const dynamic = "force-dynamic";
 
 import { useEffect } from "react";
 import { useAuth } from "@/contexts/auth-context";
@@ -17,9 +20,11 @@ export default function ExamLayout({ children }: ExamLayoutProps) {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.replace('/auth');
+      router.replace("/auth");
     }
   }, [user, loading, router]);
+
+  if (loading || !user) return null;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
