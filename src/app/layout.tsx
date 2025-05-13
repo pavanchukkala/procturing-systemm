@@ -1,5 +1,5 @@
 // src/app/layout.tsx
-import "@/styles/globals.css";   // ← or the path to your generated CSS
+import "@/styles/globals.css";
 import { ReactNode } from "react";
 import { AuthProvider } from "@/contexts/auth-context";
 
