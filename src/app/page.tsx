@@ -9,7 +9,34 @@ import { ClipboardList, Loader2, Clock, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DisplayItemsGrid } from '@/components/dashboard/candidate/display-items-grid';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/auth-context";
+import { Loader2 } from "lucide-react";
+import AuthPage from "./auth/page";
 
+export default function HomePage() {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && user) {
+      // Redirect authenticated users to dashboard
+      router.replace("/candidate/dashboard");
+    }
+  }, [user, loading, router]);
+
+  if (loading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Loader2 className="w-10 h-10 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  // Not authenticated → show Auth UI
+  return <AuthPage />;
+}
 
 const mockItems: CandidateInterview[] = [
   { id: '1', companyLogoUrl: 'https://picsum.photos/seed/Google/40/40', companyName: 'Google', role: 'Frontend Engineer – Intern', lpa: '₹12 LPA', duration: '30 min', questions: '2 Video Qs + Discussion', scheduledDate: 'June 10, 2025 at 2:00 PM', status: 'Upcoming', type: 'Interview' },
