@@ -1,4 +1,4 @@
-// src/app/(app)/recruiter/dashboard/page.tsx
+// File: src/app/(app)/recruiter/dashboard/page.tsx
 "use client";
 export const dynamic = "force-dynamic";
 
@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
 import { Loader2 } from "lucide-react";
-import RecruiterDashboardUI from "@/components/dashboard/recruiter/dashboard-ui";
+import RecruiterDashboardUI from "@/components/dashboard/recruiter/dashboard-ui"; // create this or replace
 
 export default function RecruiterDashboardPage() {
   const { user, loading } = useAuth();
