@@ -1,7 +1,7 @@
 // src/app/auth/page.tsx
 "use client";
 
-import { useEffect } from "react";
+import { useState } from "react";                        // we'll track submission state
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
 import { Loader2 } from "lucide-react";
@@ -10,19 +10,9 @@ import { AppLogo } from "@/components/shared/app-logo";
 import { User, Briefcase } from "lucide-react";
 
 export default function AuthPage() {
-  const { user, loading } = useAuth();
+  const { signIn, user, loading } = useAuth();          // assume your context exposes signIn()
   const router = useRouter();
-
-  // If user already logged in, send to correct dashboard
-  useEffect(() => {
-    if (!loading && user) {
-      if (user.role === "candidate") {
-        router.replace("/candidate/dashboard");
-      } else {
-        router.replace("/recruiter/dashboard");
-      }
-    }
-  }, [user, loading, router]);
+  const [submitting, setSubmitting] = useState(false);  // track form submit
 
   if (loading) {
     return (
@@ -32,7 +22,22 @@ export default function AuthPage() {
     );
   }
 
-  // Show signup/login panels
+  // Handle candidate panel submit
+  const handleCandidate = async (credentials) => {
+    setSubmitting(true);
+    const success = await signIn("candidate", credentials);
+    setSubmitting(false);
+    if (success) router.push("/candidate/dashboard");
+  };
+
+  // Handle recruiter panel submit
+  const handleRecruiter = async (credentials) => {
+    setSubmitting(true);
+    const success = await signIn("recruiter", credentials);
+    setSubmitting(false);
+    if (success) router.push("/recruiter/dashboard");
+  };
+
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 animated-gradient-background">
       <div className="absolute top-6 left-6">
@@ -44,12 +49,16 @@ export default function AuthPage() {
           title="Candidate Portal"
           description="Access your interviews, exams, and mock tests."
           icon={User}
+          onSubmit={handleCandidate}
+          loading={submitting}
         />
         <AuthPanel
           role="recruiter"
           title="Recruiter Portal"
           description="Manage interviews, invite candidates, and analyze results."
           icon={Briefcase}
+          onSubmit={handleRecruiter}
+          loading={submitting}
         />
       </div>
       <footer className="absolute bottom-6 text-center w-full">
