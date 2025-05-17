@@ -1,4 +1,4 @@
-// File: src/app/auth/page.tsx
+// src/app/auth/page.tsx
 "use client";
 
 import { useEffect } from "react";
@@ -13,11 +13,12 @@ export default function AuthPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
 
+  // If user already logged in, send to correct dashboard
   useEffect(() => {
     if (!loading && user) {
       if (user.role === "candidate") {
         router.replace("/candidate/dashboard");
-      } else if (user.role === "recruiter") {
+      } else {
         router.replace("/recruiter/dashboard");
       }
     }
@@ -25,18 +26,19 @@ export default function AuthPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen w-full items-center justify-center">
-        <Loader2 className="w-10 h-10 animate-spin text-primary" />
+      <div className="flex h-screen items-center justify-center">
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
       </div>
     );
   }
 
+  // Show signup/login panels
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 animated-gradient-background">
       <div className="absolute top-6 left-6">
         <AppLogo size="lg" />
       </div>
-      <div className="w-full max-w-5xl space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-10 items-start">
+      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-10">
         <AuthPanel
           role="candidate"
           title="Candidate Portal"
